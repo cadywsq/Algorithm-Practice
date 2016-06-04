@@ -50,29 +50,22 @@ public class Solution {
     */
     private int solution2(String s) {
         Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == ')') {
-                if (!stack.isEmpty() && s.charAt(stack.peek()) == '(') {
-                    stack.pop();
-                    continue;
-                } 
-            } 
-            stack.push(i);
-        }
-        
-        if (stack.isEmpty()) {
-            return s.length();
-        }
+        stack.push(-1);
         
         int maxLen = 0;
-        int start = 0; int end = s.length();
-        while (!stack.isEmpty()) {
-            start = stack.pop();
-            maxLen = Math.max(maxLen, end-start-1);
-            end = start;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == ')') {
+                stack.pop();
+                if (stack.isEmpty()) {
+                    stack.push(i);
+                } else {
+                    maxLen = Math.max(maxLen, i-stack.peek());
+                }
+            } else {
+                stack.push(i);
+            }
+            
         }
-        maxLen = Math.max(maxLen, end);
-        
         return maxLen;
     }
 }

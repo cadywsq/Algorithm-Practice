@@ -3,7 +3,7 @@ public class Solution {
         if (s == null) {
             return 0;
         }
-        return solution1(s);
+        return solution2(s);
     }
     
     /** DP solution with O(N) efficiency.

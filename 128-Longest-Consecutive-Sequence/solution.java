@@ -3,20 +3,26 @@ public class Solution {
         if (nums == null || nums.length == 0) {
             return 0;
         }
-        Arrays.sort(nums);
+        Set<Integer> numSet = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            numSet.add(nums[i]);
+        }
+        
         int maxLen = 1;
         int count = 1;
-        for (int i = 1; i < nums.length; i++) {
-            if (nums[i] == nums[i-1]) {
-                continue;
-            }
-            else if (nums[i] == nums[i-1]+1) {
-                count++;
-            } else {
+        for (int i = 0; i < nums.length; i++) {
+            int curr = nums[i];
+            // check whether the current is the start of a consecutive sequence.
+            if (!numSet.contains(curr-1)) {
+                while (numSet.contains(++curr)) {
+                    numSet.remove(curr);
+                    count++;
+                }
                 maxLen = Math.max(maxLen, count);
                 count = 1;
             }
-        }
-        return Math.max(maxLen, count);
+        } 
+        
+        return maxLen;
     }
 }

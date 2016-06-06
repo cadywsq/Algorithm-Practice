@@ -14,15 +14,10 @@ public class Solution {
             return;
         }
         
-        if (openCount == closeCount) {
-            helper(n, openCount+1, closeCount, item + "(", result);
-            return;
-        }
-        
         if (openCount < n) {
             helper(n, openCount+1, closeCount, item + "(", result);
         }
-        if (closeCount < n) {
+        if (closeCount < openCount) {
             helper(n, openCount, closeCount+1, item + ")", result);
         }
     }

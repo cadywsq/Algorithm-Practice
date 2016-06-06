@@ -3,30 +3,24 @@ public class Solution {
         if (strs == null || strs.length == 0) {
             return "";
         }
-        int minLen = Integer.MAX_VALUE;
+        String largest = strs[0];
+        String smallest = strs[0];
         for (String str : strs) {
-            minLen = Math.min(minLen, str.length());
+            if (str.compareTo(largest) > 0) {
+                largest = str;
+            } else if (str.compareTo(smallest) < 0) {
+                smallest = str;
+            }
         }
-        int low = 0;
-        int high = minLen;
-        while (low <= high) {
-            int mid = (low + high) / 2;
-            if (!isPrefix(strs, mid)) {
-                high = mid-1;
+        StringBuilder prefix = new StringBuilder();
+        for (int i = 0; i < Math.min(largest.length(), smallest.length()); i++) {
+            char c = largest.charAt(i);
+            if (c == smallest.charAt(i)) {
+                prefix.append(c);
             } else {
-                low = mid+1;
+                return prefix.toString();
             }
         }
-        return strs[0].substring(0, (low+high)/2);
-    }
-    
-    public boolean isPrefix(String[] strs, int len) {
-        String prefix = strs[0].substring(0, len);
-        for (String str : strs) {
-            if (!str.startsWith(prefix)) {
-                return false;
-            }
-        }
-        return true;
+        return prefix.toString();
     }
 }

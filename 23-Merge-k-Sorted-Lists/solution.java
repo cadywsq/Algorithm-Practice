@@ -6,6 +6,8 @@
  *     ListNode(int x) { val = x; }
  * }
  */
+ // brute-force method: time complexity O(NlogN), below solution O(Nlogk), k < N
+ // for space complexity, if cannot change input pointers, we need to create a new list, thus it's O(N + k), otherwise it's O(k) for minHeap only.
 public class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
         if (lists == null || lists.length == 0) {

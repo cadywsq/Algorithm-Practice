@@ -21,8 +21,7 @@ public class Solution {
             if (p1.val <= p2.val) {
                 minVal = p1.val;
                 p1 = p1.next;
-            }
-            else if (p1.val > p2.val) {
+            } else {
                 minVal = p2.val;
                 p2 = p2.next;
             }

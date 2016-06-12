@@ -13,7 +13,6 @@ public class Solution {
         if (root == null) {
             return result;
         }
-        
         Stack<TreeNode> stack = new Stack<>();
         TreeNode cur = root;
         while (!stack.isEmpty() || cur != null) {
@@ -22,12 +21,12 @@ public class Solution {
                 stack.push(cur);
                 cur = cur.left;
             }
-            // add root to list
+            // root
             cur = stack.pop();
             result.add(cur.val);
             // inorder(root.right)
             cur = cur.right;
-        } 
+        }
         return result;
     }
 }

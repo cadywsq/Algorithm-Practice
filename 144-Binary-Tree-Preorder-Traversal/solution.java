@@ -8,7 +8,6 @@
  * }
  */
 public class Solution {
-    // be aware recursive preorder traversal is tail recursion, it's different from inorder.
     public List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<>();
         if (root == null) {
@@ -16,18 +15,19 @@ public class Solution {
         }
         
         Stack<TreeNode> stack = new Stack<>();
-        stack.push(root);
+        TreeNode cur = root;
         
-        while (!stack.isEmpty()) {
-            // add root to the list
-            TreeNode cur = stack.pop();
-            result.add(cur.val);
-            
-            if (cur.right != null) {
-                stack.push(cur.right);
-            }
-            if (cur.left != null) {
-                stack.push(cur.left);
+        while (!stack.isEmpty() || cur != null) {
+            // when base case root==null not met, execute recursion preorder(root.left)
+            if (cur != null) {
+                result.add(cur.val);
+                stack.push(cur);
+                cur = cur.left;
+            } 
+            // when base case met, execute preorder(root.right)
+            else {
+                cur = stack.pop();
+                cur = cur.right;
             }
         }
         return result;

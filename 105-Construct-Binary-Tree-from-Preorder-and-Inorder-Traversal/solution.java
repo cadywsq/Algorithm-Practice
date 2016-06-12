@@ -22,18 +22,20 @@ public class Solution {
         if (preStart > preEnd) {
             return null;
         }
+        //Value of root of current tree.
         int rootVal = preorder[preStart];
         TreeNode root = new TreeNode(rootVal);
         
-        // find inorder index for the root
+        //Position of root value in inorder.
         int pos = findPos(inorder, inStart, inEnd, rootVal);
+        //Size of left subtree.
         int leftSize = pos - inStart;
         
-        TreeNode left = buildTree(preorder, inorder, preStart+1, preStart+leftSize, inStart, pos-1);
-        TreeNode right = buildTree(preorder, inorder, preStart+leftSize+1, preEnd, pos+1, inEnd);
+        //Construct left subtree.
+        root.left = buildTree(preorder, inorder, preStart+1, preStart+leftSize, inStart, pos-1);
+        //Construct right subtree
+        root.right = buildTree(preorder, inorder, preStart+leftSize+1, preEnd, pos+1, inEnd);
         
-        root.left = left;
-        root.right = right;
         return root;
     }
     

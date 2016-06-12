@@ -25,17 +25,21 @@ public class BSTIterator {
 
     /** @return the next smallest number */
     public int next() {
-        TreeNode node = stack.pop();
-        int result = node.val;
-        if (node.right != null) {
-            node = node.right;
-            // push all left nodes of right subtree to stack
-            while (node != null) {
-                stack.push(node);
-                node = node.left;
+        if (!hasNext()) {
+            throw new RuntimeException("No value left.");
+        }
+        
+        TreeNode cur = stack.pop();
+        int value = cur.val;
+        if (cur.right != null) {
+            cur = cur.right;
+            
+            while (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
             }
         }
-        return result;
+        return value;
     }
 }
 

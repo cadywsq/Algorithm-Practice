@@ -11,6 +11,44 @@ public class Solution {
         if (root == null) {
             return;
         }
+        solution2(root);
+    }
+    
+    /**Solution1: BFS
+     */
+     private void solution1(TreeLinkNode root) {
+         Queue<TreeLinkNode> queue = new LinkedList<>();
+         queue.offer(root);
+         int curLevelSize = 1;
+         int nextLevelSize = 0;
+         
+         while (!queue.isEmpty()) {
+             TreeLinkNode cur = queue.poll();
+             curLevelSize--;
+             if (cur.left != null) {
+                 queue.offer(cur.left);
+                 nextLevelSize++;
+             }
+             if (cur.right != null) {
+                 queue.offer(cur.right);
+                 nextLevelSize++;
+             }
+             
+             if (curLevelSize == 0) {
+                 curLevelSize = nextLevelSize;
+                 nextLevelSize = 0;
+             } else {
+                 cur.next = queue.peek();
+             }
+         }
+         
+     }
+     
+    /**Solution2: Very smart BFS solution, constant space
+     * Process the nodes level by level.
+     * Keep two pointers, pre pioints to leftmost node of a level, cur travels to each node at same level with pre.
+     */
+    private void solution2(TreeLinkNode root) {
         TreeLinkNode pre = root;
         TreeLinkNode cur = null;
         

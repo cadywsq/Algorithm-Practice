@@ -1,24 +1,22 @@
 public class Solution {
     public List<String> generateParenthesis(int n) {
         List<String> result = new ArrayList<>();
-        if (n <= 0) {
-            return result;
-        }
-        helper(n, 0, 0, "", result);
+        getResults(n, 0, 0, "", result);
         return result;
     }
     
-    private void helper(int n, int openCount, int closeCount, String item, List<String> result) {
-        if (item.length() == n*2) {
-            result.add(item);
+    private void getResults(int n, int openCount, int closeCount, String s, List<String> result) {
+        if (s.length() == n*2) {
+            result.add(s);
             return;
         }
         
         if (openCount < n) {
-            helper(n, openCount+1, closeCount, item + "(", result);
+            getResults(n, openCount+1, closeCount, s + '(', result);
         }
+        // insert close bracket in each positions after open brackets
         if (closeCount < openCount) {
-            helper(n, openCount, closeCount+1, item + ")", result);
+            getResults(n, openCount, closeCount+1, s + ')', result);
         }
     }
 }

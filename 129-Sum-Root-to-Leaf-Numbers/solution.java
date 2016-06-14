@@ -12,6 +12,12 @@ public class Solution {
         if (root == null) {
             return 0;
         }
+        return solution2(root);
+    }
+    
+    /**Solution1: append each path into a list of string, convert to numbers and sum up.
+     */
+    private int solution1(TreeNode root) {
         List<String> nums = new ArrayList<>();
         getPaths(root, nums, "");
         
@@ -34,4 +40,21 @@ public class Solution {
         getPaths(root.left, nums, s+root.val);
         getPaths(root.right, nums, s+root.val);
     }
+    
+    /**Solution2: sum up while reaching each node and multiply previous sum by 10 and add current node value.
+     */
+     private int solution2(TreeNode root) {
+         return getSum(root, 0);
+     }
+     
+     private int getSum(TreeNode root, int sum) {
+         if (root == null) {
+             return 0;
+         }
+         // when reaching a leaf
+         if (root.left == null && root.right == null) {
+             return sum * 10 + root.val;
+         }
+         return getSum(root.left, sum * 10 + root.val) + getSum(root.right, sum * 10 + root.val);
+     }
 }

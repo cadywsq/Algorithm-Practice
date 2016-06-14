@@ -51,10 +51,11 @@ public class Solution {
          if (root == null) {
              return 0;
          }
+         sum = sum * 10 + root.val;
          // when reaching a leaf
          if (root.left == null && root.right == null) {
-             return sum * 10 + root.val;
+             return sum;
          }
-         return getSum(root.left, sum * 10 + root.val) + getSum(root.right, sum * 10 + root.val);
+         return getSum(root.left, sum) + getSum(root.right, sum);
      }
 }

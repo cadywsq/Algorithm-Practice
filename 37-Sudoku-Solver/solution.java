@@ -1,57 +1,53 @@
 public class Solution {
     public void solveSudoku(char[][] board) {
-        if (board == null || board.length == 0) {
+        if (board.length != 9 || board[0].length != 9) {
             return;
         }
-        solve(board);
+        solveHelper(board, 0);
     }
     
-//  Find row, col of an unassigned cell
-    //   If there is none, return true
-    //   For digits from 1 to 9
-        //     a) If there is no conflict for digit at row,col
-        //         assign digit to row,col and recursively try fill in rest of grid
-        //     b) If recursion successful, return true
-        //     c) Else, remove digit and try another
-    //   If all digits have been tried and nothing worked, return false
-    private boolean solve(char[][] board) {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (board[i][j] == '.') {
-                    for (char c = '1'; c <= '9'; c++) {
-                        if (isValid(board, i, j, c)) {
-                            board[i][j] = c;
-                            if (solve(board)) {
-                                return true;
-                            }
-                            board[i][j] = '.'; // backtrack
-                        }
-                    }
-                    return false;
+    // traverse through every cell row by row.
+    private boolean solveHelper(char[][] board, int index) {
+        if (index == 81) {
+            return true;
+        }
+        int row = index / 9; 
+        int col = index % 9;
+        
+        if (board[row][col] != '.') {
+            return solveHelper(board, index+1);
+        }
+        
+        for (char c = '1'; c <= '9'; c++) {
+            if (isValid(board, row, col, c)) {
+                board[row][col] = c;
+                if (solveHelper(board, index+1)) {
+                    return true;
                 }
+                board[row][col] = '.';
             }
         }
-        // if all cells are assigned
-        return true;
+        return false;
+        
     }
     
-    private boolean isValid(char[][] board, int i, int j, char c) {
-        // check the ith row
-        for (int col = 0; col < 9; col++) {
+    private boolean isValid(char[][] board, int row, int col, char c) {
+        // check the row validness
+        for (int i = 0; i < 9; i++) {
             if (board[i][col] == c) {
                 return false;
             }
         }
-        // check the ith col
-        for (int row = 0; row < 9; row++) {
-            if (board[row][j] == c) {
+        // check the col validness
+        for (int i = 0; i < 9; i++) {
+            if (board[row][i] == c) {
                 return false;
             }
         }
-        // check the block
-        for (int row = i/3*3; row < i/3*3+3; row++) {
-            for (int col = j/3*3; col < j/3*3+3; col++) {
-                if (board[row][col] == c) {
+        // check the block validness
+        for (int i = row/3*3; i < row/3*3+3; i++) {
+            for (int j = col/3*3; j < col/3*3+3; j++) {
+                if (board[i][j] == c) {
                     return false;
                 }
             }

@@ -10,24 +10,29 @@
 public class Solution {
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
         List<List<Integer>> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
         pathSum(root, sum, result, new ArrayList<>());
         return result;
     }
     
     private void pathSum(TreeNode root, int target, List<List<Integer>> result, List<Integer> path) {
         if (root == null) {
-            return;
-        }
-        path.add(root.val);
-        // check whether reached leaf
-        if (root.left == null && root.right == null && root.val == target) {
-            result.add(new ArrayList<>(path));
-            path.remove(path.size()-1);
+            if (target == 0) {
+                result.add(new ArrayList<>(path));
+            }
             return;
         }
         
-        pathSum(root.left, target-root.val, result, path);
-        pathSum(root.right, target-root.val, result, path);
+        path.add(root.val);
+        // check whether reached leaf
+        if ((root.left == null && root.right == null) || root.left!=null){
+            pathSum(root.left, target-root.val, result, path);
+        }
+        if (root.right != null) {
+            pathSum(root.right, target-root.val, result, path);
+        }
         
         path.remove(path.size()-1);
     }

@@ -4,6 +4,7 @@ public class Solution {
         if (n <= 0) {
             return results;
         }
+        // traverse first row to initiate fist Q in the first row.
         for (int i = 0; i < n; i++) {
             char[][] board = formNewBoard(n, i);
             solveHelper(board, 1, results);
@@ -16,11 +17,13 @@ public class Solution {
             addValidResult(board, results);
             return;
         }
+        // dfs to try putting Q in each column in the next row.
         for (int i = 0; i < board.length; i++) {
             if (isLegal(board, row, i)) {
                 board[row][i] = 'Q';
                 solveHelper(board, row + 1, results);
-                board[row][i] = '.';
+                // backtrack to assure all valid results are found.
+                board[row][i] = '.'; 
             }
         }
     }
@@ -33,11 +36,9 @@ public class Solution {
             }
         }
         // check diagonal line
-        int diff = row - col;
-        int sum = row + col;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
-                if (!(i == row && j == col) && (i - j == diff || i + j == sum)) {
+                if (!(i == row && j == col) && (i - j == row - col || i + j == row + col)) {
                     if (board[i][j] == 'Q') {
                         return false;
                     }
@@ -59,7 +60,7 @@ public class Solution {
         results.add(oneResult);
     }
 
-    private char[][] formNewBoard(int n, int col) { //col is for position of first Q.
+    private char[][] formNewBoard(int n, int col) { //col is for position of first Q in the first row.
         char[][] board = new char[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {

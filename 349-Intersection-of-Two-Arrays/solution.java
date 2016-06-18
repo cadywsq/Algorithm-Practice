@@ -4,7 +4,7 @@ public class Solution {
             return new int[0];
         }
         Set<Integer> intersection = new HashSet<>();
-        solution2(nums1, nums2, intersection);
+        solution3(nums1, nums2, intersection);
         int[] result = new int[intersection.size()];
         int count = 0;
         for (int value:intersection) {
@@ -71,7 +71,7 @@ public class Solution {
     
     private boolean binarySearch(int[] longer, int target) {
         int start = 0;
-        int end = longer.length;
+        int end = longer.length-1;
         while (start < end) {
             int mid = start + (end-start)/2;
             if (longer[mid] < target) {
@@ -82,6 +82,6 @@ public class Solution {
                 return true;
             }
         }
-        return target == longer[start];
+        return target == longer[end];
     }
 }

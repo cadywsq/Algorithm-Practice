@@ -4,7 +4,7 @@ public class Solution {
             return new int[0];
         }
         Set<Integer> intersection = new HashSet<>();
-        solution1(nums1, nums2, intersection);
+        solution2(nums1, nums2, intersection);
         int[] result = new int[intersection.size()];
         int count = 0;
         for (int value:intersection) {

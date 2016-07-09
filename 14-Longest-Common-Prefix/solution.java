@@ -3,24 +3,15 @@ public class Solution {
         if (strs == null || strs.length == 0) {
             return "";
         }
-        String largest = strs[0];
-        String smallest = strs[0];
-        for (String str : strs) {
-            if (str.compareTo(largest) > 0) {
-                largest = str;
-            } else if (str.compareTo(smallest) < 0) {
-                smallest = str;
+        // i for traverse all characters in the first word, j for traverse array of words.
+        for (int i = 0; i < strs[0].length(); i++) {
+            char cur = strs[0].charAt(i);
+            for (int j = 0; j < strs.length; j++) {
+                if (strs[j].length() == i || strs[j].charAt(i) != cur) {
+                    return strs[0].substring(0, i);
+                }
             }
         }
-        StringBuilder prefix = new StringBuilder();
-        for (int i = 0; i < Math.min(largest.length(), smallest.length()); i++) {
-            char c = largest.charAt(i);
-            if (c == smallest.charAt(i)) {
-                prefix.append(c);
-            } else {
-                return prefix.toString();
-            }
-        }
-        return prefix.toString();
+        return strs[0];
     }
 }

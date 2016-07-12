@@ -1,10 +1,6 @@
 public class Solution {
     // worst case O(n) time complexity
     public boolean search(int[] nums, int target) {
-        if (nums.length == 1) {
-            return nums[0] == target ? true : false;
-        }
-        
         int start = 0;
         int end = nums.length-1;
         // Attention: as each iteration change the index of start and end, base case is when new mid value equals target, so loop should stop when start > end to prevent missing the final check when start == end.

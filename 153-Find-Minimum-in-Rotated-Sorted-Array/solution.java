@@ -23,7 +23,7 @@ public class Solution {
                 return nums[mid];
             }
             // if mid falls into left part of the array
-            if (nums[mid] >= nums[start] && nums[mid] > nums[end]) {
+            if (nums[mid] > nums[end]) {
                 start = mid+1;
             } else {
                 // if mid falls into right part of the array

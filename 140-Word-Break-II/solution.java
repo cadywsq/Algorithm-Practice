@@ -1,49 +1,55 @@
 public class Solution {
     public List<String> wordBreak(String s, Set<String> wordDict) {
-        List<String> result = new ArrayList<>();
-        if (s == null) {
-            return result;
+        boolean[] canBreak = canBreak(s, wordDict);
+        List<String> result = wordBreak(s, wordDict, s.length(), canBreak);
+        return result;
+    }
+    
+    private List<String> wordBreak(String s, Set<String> wordDict, int index, boolean[] canBreak) {
+        List<String> list = new ArrayList<>();
+        
+        //Return an empty list if cannot break
+        if (!canBreak[index]) {
+            return list;
         }
-        
-        // check whether the string can be segmented using words in dict
+        //Return a list containing an empty string if reach end
+        if (index == 0) {
+            list.add("");
+            return list;
+        }
+        for (int i = index-1; i >= 0; i--) {
+            String suffix = s.substring(i, index);
+            if (wordDict.contains(suffix)) {
+                for (String prefix : wordBreak(s, wordDict, i, canBreak)) {
+                    String space = null;
+                    if (prefix.length() == 0) {
+                        space = "";
+                    } else {
+                        space = " ";
+                    }
+                    list.add(prefix + space + suffix);
+                }
+            }
+        }
+        return list;
+    }
+    
+    private boolean[] canBreak(String s, Set<String> wordDict) {
         int len = s.length();
-        boolean[] canBeSegmented = new boolean[len+1];
-        canBeSegmented[0] = true;
+        // canBreak[i] represents that s.substring(0,i) is breakable, i excluded.
+        boolean[] canBreak = new boolean[len+1];
+        canBreak[0] = true;
         
-        for (int i = 0; i <= len; i++) {
-            for (int j = 0; j < i; j++) {
-                if (canBeSegmented[j] && wordDict.contains(s.substring(j,i))) {
-                    canBeSegmented[i] = true;
+        for (int i = 1; i <= s.length(); i++) {
+            for (String word : wordDict) {
+                int j = i - word.length();
+                if (j < 0) continue;
+                if (canBreak[j] && s.substring(j, i).equals(word)) {
+                    canBreak[i] = true;
                     break;
                 }
             }
         }
-        if (!canBeSegmented[len]) {
-            return result;
-        }
-        
-        // if string can be segmented, process to add possible results to final list.
-        wordBreakHelper(s, wordDict, "", 0, result);
-        return result;
-    }
-    
-    private void wordBreakHelper(String s, Set<String> wordDict, String res, int start, List<String> result) {
-        if (start == s.length()) {
-            result.add(res);
-            return;
-        }
-        
-        // append a whitespace after last word appended.
-        if (res.length() != 0) {
-            res += " ";
-        }
-        
-        for (int i = start; i < s.length(); i++) {
-            String word = s.substring(start, i+1);
-            if (wordDict.contains(word)) {
-                // indicate that s[start,i) is a word exists in dict, continue to check s[i+1,len)
-                wordBreakHelper(s, wordDict, res+word, i+1, result);
-            }
-        }
+        return canBreak;
     }
 }

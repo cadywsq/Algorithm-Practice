@@ -1,19 +1,22 @@
 public class Solution {
     public boolean wordBreak(String s, Set<String> wordDict) {
-        int len = s.length();
-        // canBeSegmented[i] represents s[0,i) can be segmented to words in dict.
-        boolean[] canBeSegmented = new boolean[len+1];
-        canBeSegmented[0] = true;
+        if (s.length() == 0 || wordDict.size() == 0) {
+            return false;
+        }
+        // represent s.substring(0, i) can be found in dict.
+        boolean[] canBreak = new boolean[s.length()+1];
+        canBreak[0] = true;
         
-        for (int i = 1; i <= len; i++) {
-            for (int j = 0; j < i; j++) {
-                // if s[0,j) is can be segmented, and s[j,i) can be segmented, then s[0,i) is true.
-                if (canBeSegmented[j] && wordDict.contains(s.substring(j,i))) {
-                    canBeSegmented[i] = true;
+        for (int i = 1; i <= s.length(); i++) {
+            for (String word : wordDict) {
+                int j = i - word.length();
+                if (j < 0) continue;
+                if (canBreak[j] && s.substring(j, i).equals(word)) {
+                    canBreak[i] = true;
                     break;
                 }
             }
         }
-        return canBeSegmented[len];
+        return canBreak[s.length()];
     }
 }

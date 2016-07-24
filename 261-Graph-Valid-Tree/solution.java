@@ -1,6 +1,7 @@
 public class Solution {
     public boolean validTree(int n, int[][] edges) {
-        return unionFindSolution(n, edges);
+        // return unionFindSolution(n, edges);
+        return dfsSolution(n, edges);
     }
     
     /**Solution1: Union-Find*/
@@ -77,7 +78,7 @@ public class Solution {
         for (int i = 0; i < adjList.get(u).size(); i++) {
             int v = adjList.get(u).get(i);
             // For every visited vertex ‘u’, if there is an adjacent ‘v’ such that v is already visited and v is not parent of u, then there is a cycle in graph. 
-            if ((visited[v] && u != parent) || (!visited[v] && hasCycle(adjList, v, u, visited))) {
+            if ((visited[v] && v != parent) || (!visited[v] && hasCycle(adjList, v, u, visited))) {
                 return true;
             }
         }

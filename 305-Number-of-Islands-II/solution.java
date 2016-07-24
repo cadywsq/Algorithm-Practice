@@ -76,7 +76,7 @@ public class Solution {
                 parent[jParent] = iParent;
             } else {
                 parent[iParent] = jParent;
-                ranks[jParent]++;
+                ranks[jParent] += ranks[iParent];
             }
         }
 

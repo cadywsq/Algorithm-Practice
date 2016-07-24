@@ -9,7 +9,7 @@ public class Solution {
         for (int[] position : positions) {
             int i = position[0];
             int j = position[1];
-            // mark the new island in parent array and return array index of the new island.
+            // mark the new island in 1-D array and return index of it.
             int p = islands.addNewIsland(i, j);
             count++;
 
@@ -39,14 +39,9 @@ public class Solution {
 
         public UnionFind2D(int m, int n) {
             parent = new int[m * n];
-            for (int i = 0; i < m; i++) {
-                for (int j = 0; j < n; j++) {
-                    parent[i * n + j] = -1;
-                }
-            }
-
             ranks = new int[m * n];
-            Arrays.fill(ranks, -1);
+            Arrays.fill(parent, -1);
+            Arrays.fill(ranks, 0);
 
             this.m = m;
             this.n = n;

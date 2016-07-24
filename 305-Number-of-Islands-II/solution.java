@@ -49,17 +49,11 @@ public class Solution {
 
         public int find(int id) {
             // path compression, set father of current id to root of the set.
-            int father = parent[id];
-            while (father != parent[father]) {
-                father = parent[father];
-            }
-            
             while (id != parent[id]) {
-                int temp = parent[id];
-                parent[id] = father;
-                id = temp;
+                parent[id] = parent[parent[id]];
+                id = parent[id];
             }
-            return father;
+            return id;
         }
 
         public void union(int i, int j) {
@@ -76,7 +70,7 @@ public class Solution {
                 parent[jParent] = iParent;
             } else {
                 parent[iParent] = jParent;
-                ranks[jParent] += ranks[iParent];
+                ranks[jParent]++;
             }
         }
 

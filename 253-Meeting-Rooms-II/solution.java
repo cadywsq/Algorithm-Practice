@@ -9,7 +9,8 @@
  */
 public class Solution {
     public int minMeetingRooms(Interval[] intervals) {
-        return twoPointerSolution(intervals);
+        // return twoPointerSolution(intervals);
+        return heapSolution(intervals);
     }
     
     /**Solution1: Two Pointers*/
@@ -40,6 +41,9 @@ public class Solution {
     
     /**Solution2: Heap*/
     public int heapSolution(Interval[] intervals) {
+        if (intervals.length == 0) {
+            return 0;
+        }
         Arrays.sort(intervals, (a,b) -> a.start-b.start);
         // Use a min heap to track the minimum end time of merged intervals
         PriorityQueue<Interval> minHeap = new PriorityQueue<>((a,b) -> a.end-b.end);
@@ -48,12 +52,13 @@ public class Solution {
         minHeap.offer(intervals[0]);
         for (int i = 1; i < intervals.length; i++) {
             // get the meeting room that finishes earliest
-            Interval interval = minHeap.peek();
+            Interval interval = minHeap.poll();
             if (intervals[i].start < interval.end) {
                 minHeap.offer(intervals[i]); // the meeting needs a new room
             } else {
                 interval.end = intervals[i].end; // no need for a new room, merge intervals
             }
+            minHeap.offer(interval);
         }
         return minHeap.size();
     }
